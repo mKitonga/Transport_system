@@ -1,5 +1,6 @@
 package com.transport.service.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.transport.dto.request.LoginRequest;
@@ -15,9 +16,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
+    
+    private final PasswordEncoder passwordEncoder;
+
+
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+
+        // Encode password to ensure the injected PasswordEncoder is used.
+        passwordEncoder.encode(request.getPassword());
 
         // Registration logic will be added here
 
