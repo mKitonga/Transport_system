@@ -1,1 +1,393 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================================
+   GLOBAL STYLES
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+html {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   LIGHT THEME
+========================================= */
+
+:root {
+    --background-color: #f5f7fb;
+    --surface-color: #ffffff;
+    --card-color: #ffffff;
+
+    --text-color: #222222;
+    --heading-color: #0d47a1;
+    --muted-text-color: #666666;
+
+    --border-color: #dddddd;
+
+    --primary-color: #0d47a1;
+    --primary-hover-color: #1565c0;
+
+    --secondary-color: #ff9800;
+    --secondary-hover-color: #f57c00;
+
+    --navbar-color: #0d47a1;
+
+    --input-background: #ffffff;
+    --input-text-color: #222222;
+
+    --shadow-color: rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================================
+   DARK THEME
+========================================= */
+
+body.dark-mode {
+    --background-color: #121212;
+    --surface-color: #181818;
+    --card-color: #1e1e1e;
+
+    --text-color: #eeeeee;
+    --heading-color: #64b5f6;
+    --muted-text-color: #bbbbbb;
+
+    --border-color: #444444;
+
+    --primary-color: #64b5f6;
+    --primary-hover-color: #90caf9;
+
+    --secondary-color: #ffb74d;
+    --secondary-hover-color: #ffcc80;
+
+    --navbar-color: #1a1a1a;
+
+    --input-background: #1e1e1e;
+    --input-text-color: #ffffff;
+
+    --shadow-color: rgba(0, 0, 0, 0.50);
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background-color: var(--background-color);
+
+    color: var(--text-color);
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   COMMON SECTIONS
+========================================= */
+
+section {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   HEADINGS
+========================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--heading-color);
+
+    transition:
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   PARAGRAPHS
+========================================= */
+
+p {
+    color: var(--text-color);
+
+    transition:
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+    color: inherit;
+
+    transition:
+        color 0.3s ease;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+    font-family: inherit;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.card,
+.feature-card,
+.step-card {
+    background-color: var(--card-color);
+
+    border: 1px solid var(--border-color);
+
+    color: var(--text-color);
+
+    box-shadow:
+        0 5px 15px var(--shadow-color);
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+input,
+select,
+textarea {
+    background-color: var(--input-background);
+
+    color: var(--input-text-color);
+
+    border: 1px solid var(--border-color);
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* =========================================
+   INPUT PLACEHOLDERS
+========================================= */
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--muted-text-color);
+}
+
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+
+    border-color: var(--primary-color);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(100, 181, 246, 0.20);
+}
+
+
+/* =========================================
+   DARK MODE - INPUTS
+========================================= */
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: var(--input-background);
+
+    color: var(--input-text-color);
+
+    border-color: var(--border-color);
+}
+
+
+/* =========================================
+   DARK MODE - SELECT OPTIONS
+========================================= */
+
+body.dark-mode select option {
+    background-color: #1e1e1e;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   DARK MODE - BUTTONS
+========================================= */
+
+body.dark-mode .login-btn {
+    background-color: #ffffff;
+
+    color: #0d47a1;
+}
+
+body.dark-mode .register-btn {
+    background-color: var(--secondary-color);
+
+    color: #121212;
+}
+
+
+/* =========================================
+   DARK MODE - NAVBAR
+========================================= */
+
+body.dark-mode .navbar,
+body.dark-mode nav {
+    background-color: var(--navbar-color);
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   DARK MODE - HERO
+========================================= */
+
+body.dark-mode .hero {
+    background-color: var(--surface-color);
+
+    color: var(--text-color);
+}
+
+
+/* =========================================
+   DARK MODE - FEATURES
+========================================= */
+
+body.dark-mode .features {
+    background-color: var(--background-color);
+
+    color: var(--text-color);
+}
+
+
+/* =========================================
+   DARK MODE - HOW IT WORKS
+========================================= */
+
+body.dark-mode .steps {
+    background-color: var(--background-color);
+
+    color: var(--text-color);
+}
+
+
+/* =========================================
+   DARK MODE - FOOTER
+========================================= */
+
+body.dark-mode footer {
+    background-color: #0d0d0d;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+    background-color: var(--primary-color);
+
+    color: #ffffff;
+}
+
+body.dark-mode ::selection {
+    background-color: #64b5f6;
+
+    color: #121212;
+}
+
+
+/* =========================================
+   SMOOTH TRANSITIONS
+========================================= */
+
+body,
+nav,
+.navbar,
+.hero,
+.features,
+.steps,
+.feature-card,
+.step-card,
+.card,
+input,
+select,
+textarea,
+button {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =========================================
+   RESPONSIVE GLOBAL SETTINGS
+========================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+}
