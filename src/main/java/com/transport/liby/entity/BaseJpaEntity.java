@@ -38,11 +38,11 @@ public abstract class BaseJpaEntity {
 
     private void generateEntityId() {
         if (getEntityId() == null) {
-            ObjectId objectId = ObjectId.get();
+            String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 24);
             String entityId = String.format(
                     "%s-%s",
                     getClass().getSimpleName().toLowerCase(),
-                    objectId
+                    uuid
             );
 
             setEntityId(entityId);

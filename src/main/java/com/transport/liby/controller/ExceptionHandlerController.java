@@ -16,11 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.transport.liby.exception.CommonRuntimeException;
+import com.transport.liby.exception.ExceptionType;
+import com.transport.liby.view.ApiResponse;
+import com.transport.liby.view.EntityApiResponse;
+import com.transport.liby.service.Message;
 
 @RestController
 @ControllerAdvice
 @RestControllerAdvice
-public class ExceptionHandlerController {@ExceptionHandler({CommonRuntimeException.class})
+public class ExceptionHandlerController {
+
+    @ExceptionHandler({CommonRuntimeException.class})
 public ResponseEntity<ApiResponse> handleErrors(CommonRuntimeException exp, Locale locale) {
     ApiResponse apiResponse = new ApiResponse(false,
             exp.getType().value(),
@@ -71,10 +78,5 @@ public ResponseEntity<ApiResponse> handleErrors(CommonRuntimeException exp, Loca
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<ApiResponse> handleStorageFileNotFound(StorageFileNotFoundException exp) {
-        ApiResponse apiResponse = new ApiResponse(false, ExceptionType.NOT_FOUND.value(), exp.getMessage());
-        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
-    }
 }
 

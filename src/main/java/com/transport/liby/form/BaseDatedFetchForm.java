@@ -39,10 +39,4 @@ public abstract class BaseDatedFetchForm extends BaseFetchForm {
                 : endDate ;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
-        if(endDate == null){
-            endDate = LocalDateTime.now();
-        }
-        this.endDate = endDate;
-    }
 }

@@ -10,17 +10,17 @@ public class BaseFetchForm extends SessionUserIdForm {
     private Integer pageNum;
     private Integer pageSize;
 
-    private String getQuery(){
+    public String getQuery(){
         return query == null ? "" : query.trim();
     }
 
-    private Integer getPageNum(){
+    public Integer getPageNum(){
         return pageNum == null
                 ? 0
                 : pageNum;
     }
 
-    private Integer getPageSize(){
+    public Integer getPageSize(){
         return pageSize == null
                 ? 40
                 : pageSize;
