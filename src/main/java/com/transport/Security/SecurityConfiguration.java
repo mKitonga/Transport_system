@@ -27,7 +27,6 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-
 public class SecurityConfiguration {
     private AuthenticationExceptionHandler authExceptionHandler;
     private Map<UserType, UserAuthService<?, ?>> userServiceMap = new HashMap<>();

@@ -38,7 +38,7 @@ public interface BaseJpaRepository<T extends BaseJpaEntity> extends JpaRepositor
                     builder.isNull(root.get("deletedAt")),
                     builder.isNull(root.get("deletedByEntityId"))
             );
-            return builder.or(predicates.toArray(Predicate[]::new));
+            return builder.and(predicates.toArray(Predicate[]::new));
         };
     }
 

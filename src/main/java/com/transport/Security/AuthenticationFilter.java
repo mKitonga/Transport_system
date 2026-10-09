@@ -45,8 +45,15 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String authToken = req.getHeader(HttpHeaders.AUTHORIZATION);
         UserType userType = getUserType(req.getServletPath());
-        if (StringUtils.isNotBlank(authToken) && userType != null) {
+        if (StringUtils.isNotBlank(authToken)) {
             try {
+                if (userType == null) {
+                    userType = resolveUserType(authToken);
+                }
+                if (userType == null) {
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
+                }
                 var auth = authenticateWithBearerToken(userType, authToken);
                 SecurityContextHolder
                         .getContext()
@@ -73,6 +80,10 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
             user = authenticateBearerToken(authToken, userType);
         }
 
+        if (user.getUserType() != userType) {
+            throw new CommonRuntimeException(ExceptionType.UNAUTHORIZED, "error.invalid.auth");
+        }
+
         if (user.getUserStatus() != UserStatus.ACTIVE) {
             throw new CommonRuntimeException(
                     ExceptionType.UNAUTHORIZED,
@@ -80,7 +91,7 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
             );
         }
 
-        UserAuthService<U, ?> userAuthService = userServiceMap.get(userType);
+        UserAuthService<U, ?> userAuthService = getUserAuthService(userType);
         List<String> authorities = new ArrayList<>(userAuthService.getUserPermissions(user));
         authorities.add(userType.toString());
         return new UsernamePasswordAuthenticationToken(
@@ -93,8 +104,8 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
     }
 
     private U authenticateBearerToken(String authToken, UserType userType) {
-        DecodedJWT decodedJWT = jwtService.getDecodedJWT(authToken, userType);
-        UserAuthService<U, ?> userAuthService = userServiceMap.get(userType);
+        DecodedJWT decodedJWT = jwtService.getDecodedJWT(getTokenValue(authToken), userType);
+        UserAuthService<U, ?> userAuthService = getUserAuthService(userType);
         U user = userAuthService.findByEntityId(decodedJWT.getSubject());
         jwtService.validateJwtId(decodedJWT.getId(), user.getRecentAuthId());
         return user;
@@ -113,7 +124,7 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
         String userId = tokenParts[0];
         String signature = tokenParts[1];
 
-        UserAuthService<U, ?> userAuthService = userServiceMap.get(userType);
+        UserAuthService<U, ?> userAuthService = getUserAuthService(userType);
         U user = userAuthService.findByEntityId(userId);
         try {
             decrypt(signature, user.getPublicKey());
@@ -162,5 +173,40 @@ class AuthenticationFilter<U extends User> extends BasicAuthenticationFilter {
             return UserType.PARENT;
         }
         return null;
+    }
+
+    private UserType resolveUserType(String authToken) {
+        UserAuthService<U, ?> userAuthService = getUserAuthService(UserType.PARENT);
+        String userId;
+        if (authToken.regionMatches(true, 0, "Signature", 0, "Signature".length())) {
+            String token = authToken.substring("Signature ".length()).trim();
+            String[] tokenParts = token.split(":");
+            if (tokenParts.length != 2) {
+                throw new CommonRuntimeException(ExceptionType.FORBIDDEN, "error.invalid.auth");
+            }
+            userId = tokenParts[0];
+        } else {
+            DecodedJWT decodedJWT = jwtService.getDecodedJWT(getTokenValue(authToken), UserType.PARENT);
+            userId = decodedJWT.getSubject();
+        }
+        return userAuthService.findByEntityId(userId).getUserType();
+    }
+
+    private UserAuthService<U, ?> getUserAuthService(UserType userType) {
+        UserAuthService<U, ?> userAuthService = userServiceMap.get(userType);
+        if (userAuthService == null) {
+            userAuthService = userServiceMap.get(UserType.PARENT);
+        }
+        if (userAuthService == null) {
+            throw new CommonRuntimeException(ExceptionType.UNAUTHORIZED, "error.invalid.auth");
+        }
+        return userAuthService;
+    }
+
+    private String getTokenValue(String authToken) {
+        if (authToken.regionMatches(true, 0, "Bearer ", 0, "Bearer ".length())) {
+            return authToken.substring("Bearer ".length()).trim();
+        }
+        return authToken.trim();
     }
 }

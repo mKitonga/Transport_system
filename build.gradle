@@ -18,41 +18,47 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
-	implementation 'io.jsonwebtoken:jjwt-api:0.12.7'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.12.7'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.7'
-
+	//JWT
 	implementation 'com.auth0:java-jwt:4.4.0'
 
-	implementation 'org.apache.commons:commons-text:1.12.0'
+	// Apache Commons utilities used by application source
+	implementation 'org.apache.commons:commons-lang3'
+	implementation 'org.apache.commons:commons-text:1.15.0'
+
+	//Google lib phone number
+	implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.42'
+
+	//Mini-dev json
+	implementation "net.minidev:json-smart:2.5.2"
+
+	//Jackson data types
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-	implementation 'org.apache.commons:commons-lang3:3.14.0'
-	implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.39'
+
+	//Apache poi library
+	implementation 'org.apache.poi:poi:5.4.1'
+	implementation "org.apache.poi:poi-ooxml-full:5.4.1"
+
 	compileOnly 'org.projectlombok:lombok'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-amqp-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-mongodb-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-amqp-test'
-
-
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testRuntimeOnly 'com.h2database:h2'
 	testAnnotationProcessor 'org.projectlombok:lombok'
-
 }
 
 tasks.named('test') {

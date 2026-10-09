@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 @Getter
-@Setter
 public abstract class BaseDatedFetchForm extends BaseFetchForm {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -37,6 +36,10 @@ public abstract class BaseDatedFetchForm extends BaseFetchForm {
         return endDate == null
                 ? LocalDateTime.now()
                 : endDate ;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 
 }

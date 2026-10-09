@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
@@ -22,8 +20,6 @@ import com.transport.liby.view.ApiResponse;
 import com.transport.liby.view.EntityApiResponse;
 import com.transport.liby.service.Message;
 
-@RestController
-@ControllerAdvice
 @RestControllerAdvice
 public class ExceptionHandlerController {
 

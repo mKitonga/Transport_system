@@ -9,6 +9,7 @@ import com.transport.Authentication.Service.VerificationCodeService;
 import com.transport.Authentication.form.*;
 import com.transport.Authentication.view.AuthView;
 import com.transport.Authentication.view.Jwt;
+import com.transport.Permissions.service.PermissionReadService;
 import com.transport.User.entity.User;
 import com.transport.User.entity.UserStatus;
 import com.transport.User.entity.UserType;
@@ -29,6 +30,7 @@ public abstract class UserAuthService<U extends User, R extends UserRepository<U
     private JwtService jwtService;
     private List<OnUsernameVerificationListener> usernameVerificationListeners;
     private AuthEventNotificationService authEventNotificationService;
+    private PermissionReadService permissionReadService;
 
     public abstract UserType getUserType();
     protected abstract U getNewUser();
@@ -219,7 +221,10 @@ public abstract class UserAuthService<U extends User, R extends UserRepository<U
     }
 
     public List<String> getUserPermissions(U user) {
-        return List.of();
+        if (user.getUserType() == null) {
+            return List.of();
+        }
+        return permissionReadService.findPermissionNamesForUserTypes(List.of(user.getUserType()));
     }
 
 
@@ -259,6 +264,11 @@ public abstract class UserAuthService<U extends User, R extends UserRepository<U
     @Autowired
     public void setAuthEventNotificationService(AuthEventNotificationService authEventNotificationService) {
         this.authEventNotificationService = authEventNotificationService;
+    }
+
+    @Autowired
+    public void setPermissionReadService(PermissionReadService permissionReadService) {
+        this.permissionReadService = permissionReadService;
     }
 
     @Autowired
