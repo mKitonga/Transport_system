@@ -1,0 +1,372 @@
+/* =========================================
+   HOME PAGE
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.hero h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: var(--heading-color);
+}
+
+
+.hero p {
+    width: 60%;
+    margin: 0 auto 40px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--muted-text-color);
+}
+
+
+/* =========================================
+   GET STARTED BUTTON
+========================================= */
+
+.get-started-btn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.get-started-btn:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.features {
+    padding: 80px;
+    text-align: center;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.features h2,
+.how-it-works h2,
+.statistics h2 {
+    font-size: 40px;
+    margin-bottom: 50px;
+    color: var(--heading-color);
+}
+
+
+/* =========================================
+   FEATURE GRID
+========================================= */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+.feature-card {
+    padding: 30px;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow:
+        0 5px 15px var(--shadow-color);
+
+    transition: all 0.3s ease;
+}
+
+
+.feature-card:hover {
+    transform: translateY(-8px);
+}
+
+
+.feature-card .icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    color: var(--heading-color);
+}
+
+
+.feature-card p {
+    color: var(--muted-text-color);
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   HOW IT WORKS
+========================================= */
+
+.how-it-works {
+    padding: 80px;
+    text-align: center;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.steps {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+.step-card {
+    padding: 30px;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow:
+        0 5px 15px var(--shadow-color);
+
+    transition: all 0.3s ease;
+}
+
+
+.step-card:hover {
+    transform: translateY(-8px);
+}
+
+
+.step-number {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+.step-card h3 {
+    margin-bottom: 15px;
+    color: var(--heading-color);
+}
+
+
+.step-card p {
+    color: var(--muted-text-color);
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.statistics {
+    padding: 80px 60px;
+    text-align: center;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.statistics-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+    gap: 30px;
+}
+
+
+/* =========================================
+   STATISTICS CARD
+========================================= */
+
+.stat-card {
+    padding: 40px 20px;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow:
+        0 5px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 10px 25px var(--shadow-color);
+}
+
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    font-size: 42px;
+    color: var(--primary-color);
+}
+
+
+.stat-card p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--muted-text-color);
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark-mode .hero {
+    background-color: var(--background-color);
+}
+
+
+body.dark-mode .features {
+    background-color: var(--surface-color);
+}
+
+
+body.dark-mode .how-it-works {
+    background-color: var(--background-color);
+}
+
+
+body.dark-mode .statistics {
+    background-color: var(--surface-color);
+}
+
+
+body.dark-mode .feature-card,
+body.dark-mode .step-card,
+body.dark-mode .stat-card {
+    background-color: var(--card-color);
+    border-color: var(--border-color);
+    box-shadow:
+        0 5px 15px var(--shadow-color);
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 900px) {
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero p {
+        width: 80%;
+    }
+
+    .features,
+    .how-it-works,
+    .statistics {
+        padding: 60px 30px;
+    }
+
+    .statistics-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .hero {
+        padding: 80px 20px;
+    }
+
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+
+    .hero p {
+        width: 100%;
+
+        font-size: 17px;
+    }
+
+
+    .features,
+    .how-it-works,
+    .statistics {
+        padding: 50px 20px;
+    }
+
+
+    .features h2,
+    .how-it-works h2,
+    .statistics h2 {
+        font-size: 32px;
+    }
+
+
+    .statistics-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .stat-card h3 {
+        font-size: 36px;
+    }
+
+}

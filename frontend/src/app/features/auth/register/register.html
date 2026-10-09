@@ -1,0 +1,211 @@
+<div class="register-container">
+
+    <h2>Create Account</h2>
+
+    <form (ngSubmit)="register()">
+
+        <!-- Full Name -->
+        <input
+            type="text"
+            placeholder="Full Name"
+            name="fullName"
+            [(ngModel)]="registerRequest.fullName">
+
+        <!-- Email -->
+        <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="registerRequest.email">
+
+        <!-- Phone Number -->
+        <input
+            type="text"
+            placeholder="Phone Number"
+            name="phoneNumber"
+            [(ngModel)]="registerRequest.phoneNumber">
+
+        <!-- Password -->
+        <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="registerRequest.password">
+
+        <!-- Confirm Password -->
+        <input
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            [(ngModel)]="registerRequest.confirmPassword">
+
+        <!-- Role -->
+        <select
+            name="role"
+            [(ngModel)]="registerRequest.role">
+
+            <option value="">Select Role</option>
+
+            <option value="SACCO_ADMIN">
+                Sacco Admin
+            </option>
+
+            <option value="SACCO_DRIVER">
+                Sacco Driver
+            </option>
+
+            <option value="SCHOOL_ADMIN">
+                School Admin
+            </option>
+
+            <option value="SCHOOL_DRIVER">
+                School Driver
+            </option>
+
+            <option value="PARENT">
+                Parent
+            </option>
+
+        </select>
+
+        <!-- Display selected role -->
+        <p>
+            Selected Role: {{ registerRequest.role }}
+        </p>
+
+
+        <!-- ========================= -->
+        <!-- SACCO ADMIN -->
+        <!-- ========================= -->
+
+        @if (registerRequest.role === 'SACCO_ADMIN') {
+
+            <div>
+
+                <input
+                    type="text"
+                    placeholder="Sacco Name"
+                    name="saccoName"
+                    [(ngModel)]="registerRequest.saccoName">
+
+                <input
+                    type="text"
+                    placeholder="Route Name"
+                    name="routeName"
+                    [(ngModel)]="registerRequest.routeName">
+
+            </div>
+
+        }
+
+
+        <!-- ========================= -->
+        <!-- SACCO DRIVER -->
+        <!-- ========================= -->
+
+        @if (registerRequest.role === 'SACCO_DRIVER') {
+
+            <div>
+
+                <input
+                    type="text"
+                    placeholder="Sacco Name"
+                    name="saccoName"
+                    [(ngModel)]="registerRequest.saccoName">
+
+                <input
+                    type="text"
+                    placeholder="Number Plate"
+                    name="numberPlate"
+                    [(ngModel)]="registerRequest.numberPlate">
+
+                <input
+                    type="text"
+                    placeholder="Matatu Name"
+                    name="matatuName"
+                    [(ngModel)]="registerRequest.matatuName">
+
+            </div>
+
+        }
+
+
+        <!-- ========================= -->
+        <!-- SCHOOL ADMIN / DRIVER -->
+        <!-- ========================= -->
+
+        @if (
+            registerRequest.role === 'SCHOOL_ADMIN' ||
+            registerRequest.role === 'SCHOOL_DRIVER'
+        ) {
+
+            <div>
+
+                <input
+                    type="text"
+                    placeholder="School Name"
+                    name="schoolName"
+                    [(ngModel)]="registerRequest.schoolName">
+
+                <input
+                    type="text"
+                    placeholder="School Location"
+                    name="schoolLocation"
+                    [(ngModel)]="registerRequest.schoolLocation">
+
+            </div>
+
+        }
+
+
+        <!-- ========================= -->
+        <!-- PARENT -->
+        <!-- ========================= -->
+
+        @if (registerRequest.role === 'PARENT') {
+
+            <div>
+
+                <input
+                    type="text"
+                    placeholder="Student Name"
+                    name="studentName"
+                    [(ngModel)]="registerRequest.studentName">
+
+                <input
+                    type="text"
+                    placeholder="Grade"
+                    name="grade"
+                    [(ngModel)]="registerRequest.grade">
+
+                <input
+                    type="text"
+                    placeholder="Admission Number"
+                    name="admissionNumber"
+                    [(ngModel)]="registerRequest.admissionNumber">
+
+                <input
+                    type="text"
+                    placeholder="School Name"
+                    name="schoolName"
+                    [(ngModel)]="registerRequest.schoolName">
+
+                <input
+                    type="text"
+                    placeholder="School Location"
+                    name="schoolLocation"
+                    [(ngModel)]="registerRequest.schoolLocation">
+
+            </div>
+
+        }
+
+
+        <!-- Register Button -->
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+</div>

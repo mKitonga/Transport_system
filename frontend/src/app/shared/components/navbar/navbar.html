@@ -1,0 +1,80 @@
+<nav class="navbar">
+
+    <!-- Logo -->
+    <div
+        class="logo"
+        (click)="goHome()">
+
+        Strategic Transport System
+
+    </div>
+
+
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+
+        <li>
+            <a routerLink="/">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a routerLink="/about">
+                About
+            </a>
+        </li>
+
+        <li>
+            <a routerLink="/contact">
+                Contact
+            </a>
+        </li>
+
+        <li>
+            <a routerLink="/services">
+                Services
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- Action Buttons -->
+    <div class="buttons">
+
+        <!-- Login -->
+        <button
+            type="button"
+            class="login-btn"
+            (click)="login()">
+
+            Login
+
+        </button>
+
+
+        <!-- Register -->
+        <button
+            type="button"
+            class="register-btn"
+            (click)="register()">
+
+            Register
+
+        </button>
+
+
+        <!-- Theme Toggle -->
+        <button
+            type="button"
+            class="theme-btn"
+            (click)="toggleTheme()">
+
+            {{ isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode' }}
+
+        </button>
+
+    </div>
+
+</nav>

@@ -1,0 +1,102 @@
+nav{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:#0d47a1;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    transition: background-color 0.3s;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+}
+
+ul{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+a{
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+a:hover{
+    color:#ffd54f;
+}
+
+.buttons{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.login-btn{
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.register-btn{
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn{
+    background-color: white;
+    color: #174ea6;
+}
+
+.login-btn:hover{
+    background-color: #e8f0fe;
+    transform: translateY(-2px);
+}
+
+.register-btn{
+    background-color: #f59e0b;
+    color: white;
+}
+
+.register-btn:hover{
+    background-color: #d97706;
+    transform: translateY(-2px);
+}
+
+.theme-btn {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+
+    background-color: #374151;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    background-color: #1f2937;
+    transform: translateY(-2px);
+}
