@@ -20,7 +20,7 @@ public class PermissionReadService extends BaseJpaRepoReadService<Permission, Pe
         return repository.findPermissionNamesForUserTypes(userTypes);
     }
 
-    public Page<Permission> listUserPermissions(BaseFetchForm form){
+    public Page<Permission> listPermissions(BaseFetchForm form){
         Specification<Permission> spec = repository.notDeleted();
 
         if(StringUtils.isNotEmpty(form.getQuery())) {

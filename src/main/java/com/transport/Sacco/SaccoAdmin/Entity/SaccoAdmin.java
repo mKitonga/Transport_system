@@ -1,5 +1,6 @@
 package com.transport.Sacco.SaccoAdmin.Entity;
 
+import com.transport.Routes.Entity.Terminal;
 import com.transport.Sacco.Entity.Sacco;
 import com.transport.User.entity.User;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ public class SaccoAdmin extends User {
     @JoinColumn(name = "sacco_id")
     private Sacco sacco;
 
-    @Column
-    private String station;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "station_id", unique = true)
+    private Terminal station;
 }

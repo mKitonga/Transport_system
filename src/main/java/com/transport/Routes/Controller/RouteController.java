@@ -80,6 +80,21 @@ public class RouteController {
         );
     }
 
+    @PreAuthorize("hasAuthority('ASSIGN_ROUTE_TO_DRIVER')")
+    @PutMapping("/{routeId}/drivers/{driverId}")
+    public ApiResponse assignRouteToDriver(
+            @PathVariable("routeId") String routeId,
+            @PathVariable("driverId") String driverId,
+            Authentication auth,
+            Locale locale) {
+        
+        routeEditService.assignRouteToDriver(routeId, driverId, auth.getName());
+        return new ApiResponse(
+                Message.get("route.driver.assignment.success",
+                        locale)
+        );
+    }
+
     @GetMapping("/list")
     public PagedEntityApiResponse<RouteView> listRoutes(
             @RequestParam(name = "query", required = false) String query,

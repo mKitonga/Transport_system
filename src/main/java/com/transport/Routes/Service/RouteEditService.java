@@ -7,6 +7,8 @@ import com.transport.Routes.Form.UpdateRouteTerminalsForm;
 import com.transport.Routes.Repository.RouteRepository;
 import com.transport.Sacco.SaccoAdmin.Service.SaccoAdminReadService;
 import com.transport.Sacco.Entity.Sacco;
+import com.transport.Sacco.SaccoDriver.Entity.SaccoDriver;
+import com.transport.Sacco.SaccoDriver.Service.SaccoDriverEditService;
 import com.transport.Sacco.Service.SaccoReadService;
 import com.transport.School.SchoolAdmin.Service.SchoolAdminReadService;
 import com.transport.liby.exception.CommonRuntimeException;
@@ -26,6 +28,7 @@ public class RouteEditService extends BaseJpaRepoEditService<Route, RouteReposit
     private SaccoAdminReadService saccoAdminReadService;
     private SaccoReadService saccoReadService;
     private SchoolAdminReadService schoolAdminReadService;
+    private SaccoDriverEditService saccoDriverEditService;
 
     @Transactional
     public Route registerRoute(RegisterRouteForm form) {
@@ -79,6 +82,24 @@ public class RouteEditService extends BaseJpaRepoEditService<Route, RouteReposit
 
         route = save(route, form.getSessionUserId());
         return route;
+    }
+
+    @Transactional
+    public SaccoDriver assignRouteToDriver(String routeId, String driverId, String adminId) {
+        Route route = findOwnedRoute(routeId, adminId);
+        var saccoAdmin = saccoAdminReadService.findActiveAdminByEntityId(adminId)
+                .orElseThrow(this::notFound);
+        var station = saccoAdmin.getStation();
+        if (station == null
+                || route.getSacco() == null
+                || saccoAdmin.getSacco() == null
+                || !route.getSacco().getEntityId().equals(saccoAdmin.getSacco().getEntityId())
+                || route.getTerminals().stream().noneMatch(
+                        terminal -> terminal.getEntityId().equals(station.getEntityId()))) {
+            throw notFound();
+        }
+
+        return saccoDriverEditService.assignRoute(driverId, route, adminId);
     }
 
     @Transactional
@@ -136,5 +157,10 @@ public class RouteEditService extends BaseJpaRepoEditService<Route, RouteReposit
     @Autowired
     public void setSchoolAdminReadService(SchoolAdminReadService schoolAdminReadService) {
         this.schoolAdminReadService = schoolAdminReadService;
+    }
+
+    @Autowired
+    public void setSaccoDriverEditService(SaccoDriverEditService saccoDriverEditService) {
+        this.saccoDriverEditService = saccoDriverEditService;
     }
 }
