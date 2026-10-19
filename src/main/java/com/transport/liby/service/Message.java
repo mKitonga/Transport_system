@@ -19,7 +19,10 @@ public class Message {
         return get(property, new Locale("en"));
     }
 
-    public static String get( @NonNull String property, @NonNull Locale locale){
-        return Message.messageSource.getMessage(property, null, locale);
+    public static String get(@NonNull String property, @NonNull Locale locale) {
+        if (Message.messageSource == null) {
+            return property;
+        }
+        return Message.messageSource.getMessage(property, null, property, locale);
     }
 }

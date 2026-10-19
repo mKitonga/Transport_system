@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorValue("SchoolAdmin")
 @Getter
 @Setter
 public class SchoolAdmin extends User {
@@ -15,4 +14,7 @@ public class SchoolAdmin extends User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
+
+    @Column(name = "school_location")
+    private String location;
 }

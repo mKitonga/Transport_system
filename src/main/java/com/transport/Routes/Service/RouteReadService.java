@@ -7,6 +7,7 @@ import com.transport.Routes.View.RouteView;
 import com.transport.Sacco.SaccoAdmin.Service.SaccoAdminReadService;
 import com.transport.Sacco.Service.SaccoReadService;
 import com.transport.School.SchoolAdmin.Service.SchoolAdminReadService;
+import com.transport.User.entity.UserType;
 import com.transport.liby.exception.CommonRuntimeException;
 import com.transport.liby.exception.ExceptionType;
 import com.transport.liby.service.BaseJpaRepoReadService;
@@ -32,25 +33,28 @@ public class RouteReadService extends BaseJpaRepoReadService<Route, RouteReposit
     }
 
     @Transactional(readOnly = true)
-    public Page<RouteView> listRoutes(FetchRoutesForm form, String adminId) {
+    public Page<RouteView> listRoutes(FetchRoutesForm form, String adminId, UserType userType) {
         var spec = repository.notDeleted();
-        var saccoAdmin = saccoAdminReadService.findActiveAdminByEntityId(adminId);
-        var schoolAdmin = schoolAdminReadService.findActiveAdminByEntityId(adminId);
-        var saccoOwner = saccoAdmin.map(admin -> admin.getSacco())
-                .orElseGet(() -> {
-                    var ownedSaccos = saccoReadService.findOwnedByAdminId(adminId);
-                    return ownedSaccos.size() == 1 ? ownedSaccos.get(0) : null;
-                });
-        var schoolOwner = schoolAdmin.map(admin -> admin.getSchool()).orElse(null);
-        boolean ownsSacco = saccoOwner != null;
-        boolean ownsSchool = schoolOwner != null;
-        if (ownsSacco == ownsSchool) {
-            throw notFound();
-        }
-        if (ownsSacco) {
-            spec = spec.and(repository.saccoEntityIdIs(saccoOwner.getEntityId()));
+        if (userType == UserType.SCHOOL_ADMIN) {
+            var schoolAdmin = schoolAdminReadService.findActiveAdminByEntityId(adminId)
+                    .orElseThrow(this::notFound);
+            if (schoolAdmin.getSchool() == null) {
+                throw notFound();
+            }
+            spec = spec.and(repository.schoolEntityIdIs(schoolAdmin.getSchool().getEntityId()));
+        } else if (userType == UserType.SACCO_ADMIN) {
+            var sacco = saccoAdminReadService.findActiveAdminByEntityId(adminId)
+                    .map(admin -> admin.getSacco())
+                    .orElseGet(() -> {
+                        var ownedSaccos = saccoReadService.findOwnedByAdminId(adminId);
+                        return ownedSaccos.size() == 1 ? ownedSaccos.get(0) : null;
+                    });
+            if (sacco == null) {
+                throw notFound();
+            }
+            spec = spec.and(repository.saccoEntityIdIs(sacco.getEntityId()));
         } else {
-            spec = spec.and(repository.schoolEntityIdIs(schoolOwner.getEntityId()));
+            throw notFound();
         }
 
         if (StringUtils.isNotBlank(form.getQuery())) {

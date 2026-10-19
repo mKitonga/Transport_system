@@ -11,6 +11,7 @@ import com.transport.Sacco.SaccoDriver.Entity.SaccoDriver;
 import com.transport.Sacco.SaccoDriver.Service.SaccoDriverEditService;
 import com.transport.Sacco.Service.SaccoReadService;
 import com.transport.School.SchoolAdmin.Service.SchoolAdminReadService;
+import com.transport.User.entity.UserType;
 import com.transport.liby.exception.CommonRuntimeException;
 import com.transport.liby.exception.ExceptionType;
 import com.transport.liby.service.BaseJpaRepoEditService;
@@ -31,24 +32,27 @@ public class RouteEditService extends BaseJpaRepoEditService<Route, RouteReposit
     private SaccoDriverEditService saccoDriverEditService;
 
     @Transactional
-    public Route registerRoute(RegisterRouteForm form) {
+    public Route registerRoute(RegisterRouteForm form, UserType userType) {
         Route route = new Route();
         route.setName(form.getName().trim());
         route.setCreatedByEntityId(form.getSessionUserId());
-        var saccoAdmin = saccoAdminReadService.findActiveAdminByEntityId(form.getSessionUserId());
-        var schoolAdmin = schoolAdminReadService.findActiveAdminByEntityId(form.getSessionUserId());
-        var saccoOwner = saccoAdmin.map(admin -> admin.getSacco())
-                .orElseGet(() -> singleOwnedSacco(form.getSessionUserId()));
-        var schoolOwner = schoolAdmin.map(admin -> admin.getSchool()).orElse(null);
-        boolean isSaccoOwner = saccoOwner != null;
-        boolean isSchoolOwner = schoolOwner != null;
-        if (isSaccoOwner == isSchoolOwner) {
-            throw notFound();
-        }
-        if (isSaccoOwner) {
-            route.setSacco(saccoOwner);
+        if (userType == UserType.SCHOOL_ADMIN) {
+            var schoolAdmin = schoolAdminReadService.findActiveAdminByEntityId(form.getSessionUserId())
+                    .orElseThrow(this::notFound);
+            if (schoolAdmin.getSchool() == null) {
+                throw notFound();
+            }
+            route.setSchool(schoolAdmin.getSchool());
+        } else if (userType == UserType.SACCO_ADMIN) {
+            var saccoAdmin = saccoAdminReadService.findActiveAdminByEntityId(form.getSessionUserId());
+            var sacco = saccoAdmin.map(admin -> admin.getSacco())
+                    .orElseGet(() -> singleOwnedSacco(form.getSessionUserId()));
+            if (sacco == null) {
+                throw notFound();
+            }
+            route.setSacco(sacco);
         } else {
-            route.setSchool(schoolOwner);
+            throw notFound();
         }
 
         route = save(route, form.getSessionUserId());

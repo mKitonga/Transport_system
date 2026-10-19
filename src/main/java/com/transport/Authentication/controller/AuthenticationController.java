@@ -23,17 +23,6 @@ import static com.transport.liby.service.SystemConfig.STS_USER_BASE_URL;
 public abstract class AuthenticationController<U extends User> {
     protected abstract UserAuthService<U, ?> getAuthService();
 
-    @PostMapping("register")
-    public EntityApiResponse<AuthView> register(
-            @RequestBody @Valid RegisterForm form,
-            Locale locale) {
-        var authView = getAuthService().register(form);
-        return new EntityApiResponse<>(
-                Message.get("registration.success", locale),
-                authView
-        );
-    }
-
     @PostMapping("init-login")
     public EntityApiResponse<VerificationCodeView> initLogin(
             @RequestBody @Valid InitLoginForm form,

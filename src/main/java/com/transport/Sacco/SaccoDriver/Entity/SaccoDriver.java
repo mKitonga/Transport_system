@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorValue("SaccoDriver")
 @Getter
 @Setter
 public class SaccoDriver extends User {

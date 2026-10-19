@@ -67,11 +67,15 @@ public abstract class UserAuthService<U extends User, R extends UserRepository<U
 
     public AuthView register(RegisterForm form) {
         U user = getNewUser();
+        return registerUser(user, form, getUserType());
+    }
+
+    public AuthView registerUser(U user, RegisterForm form, UserType userType) {
         user.setName(form.getName());
         user.setEmail(form.getEmail());
         user.setPhoneNumber(form.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(form.getPassword()));
-        user.setUserType(form.getUserType());
+        user.setUserType(userType);
         user.setUserStatus(UserStatus.PENDING_APPROVAL);
         user = save(user);
         return onUserAuthentication(user);

@@ -8,9 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING, length = 31)
-@DiscriminatorValue("User")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(indexes = {
         @Index(name = "idx_user_type", columnList = "user_type")
 })

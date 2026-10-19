@@ -30,6 +30,7 @@ public class JwtService {
         LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(jwtValidityMins);
         String jwtToken = JWT.create()
                 .withSubject(entityId)
+                .withClaim("userType", user.getUserType().name())
                 .withExpiresAt(expiryTime.toInstant(ZoneOffset.UTC))
                 .withJWTId(jwtId)
                 .sign(Algorithm.HMAC512(getJwtSecret(user.getUserType()).getBytes()));

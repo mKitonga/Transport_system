@@ -14,7 +14,15 @@ import java.time.LocalDateTime;
 public abstract class BaseJpaEntity {
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(
+            name = "base_entity_id_generator",
+            table = "base_entity_id_generator",
+            pkColumnName = "generator_name",
+            valueColumnName = "next_id",
+            pkColumnValue = "base_entity",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "base_entity_id_generator")
     private long id;
 
     @Column(unique = true, updatable = false)

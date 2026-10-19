@@ -7,6 +7,9 @@ import com.transport.Routes.Form.UpdateRouteTerminalsForm;
 import com.transport.Routes.Service.RouteEditService;
 import com.transport.Routes.Service.RouteReadService;
 import com.transport.Routes.View.RouteView;
+import com.transport.User.entity.UserType;
+import com.transport.liby.exception.CommonRuntimeException;
+import com.transport.liby.exception.ExceptionType;
 import com.transport.liby.service.Message;
 import com.transport.liby.view.ApiResponse;
 import com.transport.liby.view.EntityApiResponse;
@@ -43,7 +46,7 @@ public class RouteController {
             Authentication auth,
             Locale locale) {
         form.setSessionUserId(auth.getName());
-        var route = routeEditService.registerRoute(form);
+        var route = routeEditService.registerRoute(form, authenticatedRouteAdminType(auth));
         return new EntityApiResponse<>(
                 Message.get("route.registration.success", locale),
                 new RouteView(route)
@@ -105,7 +108,7 @@ public class RouteController {
         form.setQuery(query);
         form.setPageNum(pageNum);
         form.setPageSize(pageSize);
-        var page = routeReadService.listRoutes(form, auth.getName());
+        var page = routeReadService.listRoutes(form, auth.getName(), authenticatedRouteAdminType(auth));
         return new PagedEntityApiResponse<>(page, page.getContent());
     }
 
@@ -127,5 +130,18 @@ public class RouteController {
     @Autowired
     public void setRouteReadService(RouteReadService routeReadService) {
         this.routeReadService = routeReadService;
+    }
+
+    private UserType authenticatedRouteAdminType(Authentication auth) {
+        return auth.getAuthorities().stream()
+                .map(authority -> authority.getAuthority())
+                .filter(authority -> authority.equals(UserType.SCHOOL_ADMIN.name())
+                        || authority.equals(UserType.SACCO_ADMIN.name()))
+                .map(UserType::valueOf)
+                .findFirst()
+                .orElseThrow(() -> new CommonRuntimeException(
+                        ExceptionType.FORBIDDEN,
+                        "error.invalid.auth"
+                ));
     }
 }

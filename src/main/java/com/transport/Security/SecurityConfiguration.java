@@ -33,16 +33,16 @@ public class SecurityConfiguration {
     private JwtService jwtService;
 
     private final String[] permittedUrls = {
+            "/error",
             SystemConfig.STS_USER_BASE_URL + "/auth/register",
+            SystemConfig.STS_USER_BASE_URL + "/auth/register/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/init-login",
-            SystemConfig.STS_USER_BASE_URL + "/auth/complete-login/**",
-            SystemConfig.STS_USER_BASE_URL + "/auth/init-password-reset",
-            SystemConfig.STS_USER_BASE_URL + "/auth/reset-password/**",
-            SystemConfig.STS_USER_BASE_URL + "/verification-code/request/**",
-            SystemConfig.STS_USER_BASE_URL + "/verification-code/resend/**",
-            SystemConfig.STS_USER_BASE_URL + "/auth/reset-password/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/init-login/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/complete-login/**",
+            SystemConfig.STS_USER_BASE_URL + "/auth/init-password-reset",
+            SystemConfig.STS_USER_BASE_URL + "/auth/init-password-reset/**",
+            SystemConfig.STS_USER_BASE_URL + "/auth/reset-password/**",
+            SystemConfig.STS_USER_BASE_URL + "/verification-code/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/update-public-key/**",
     };
 
@@ -52,38 +52,25 @@ public class SecurityConfiguration {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(matcherReg ->
-                        matcherReg
-                                .requestMatchers(HttpMethod.OPTIONS)
-                                .permitAll()
-                )
-                .authorizeHttpRequests(matcherReg ->
-                        matcherReg
-                                .requestMatchers(permittedUrls)
-                                .permitAll()
-                )
-                .authorizeHttpRequests(matcherReg ->
-                        matcherReg
-                                .requestMatchers(
-                                        SystemConfig.STS_USER_BASE_URL + "/**"
-                                )
-                                .authenticated()
-                )
-                .authorizeHttpRequests(matcherReg ->
-                        matcherReg.anyRequest().authenticated()
+                .authorizeHttpRequests(matcherReg -> matcherReg
+                        .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR, jakarta.servlet.DispatcherType.ASYNC).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        .requestMatchers(permittedUrls).permitAll()
+                        .requestMatchers(SystemConfig.STS_USER_BASE_URL + "/**").authenticated()
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling(expHandler ->
                         expHandler.authenticationEntryPoint(
                                 authExceptionHandler
                         )
                 )
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManager ->
                         sessionManager.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
-                .addFilter(authFilter);
+                .addFilterBefore(authFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

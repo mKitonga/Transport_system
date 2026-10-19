@@ -63,4 +63,9 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	maxHeapSize = '1024m'
+	jvmArgs = [
+		'-XX:-UseSharedSpaces',
+		'-XX:+EnableDynamicAgentLoading'
+	]
 }

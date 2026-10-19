@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EditRouteForm extends SessionUserIdForm {
-    @NotBlank
+    @NotBlank(message  = "error.empty.route")
     @Size(max = 255)
     private String name;
 
