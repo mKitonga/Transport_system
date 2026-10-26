@@ -33,7 +33,6 @@ public class SecurityConfiguration {
     private JwtService jwtService;
 
     private final String[] permittedUrls = {
-            "/error",
             SystemConfig.STS_USER_BASE_URL + "/auth/register",
             SystemConfig.STS_USER_BASE_URL + "/auth/register/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/init-login",
@@ -44,6 +43,8 @@ public class SecurityConfiguration {
             SystemConfig.STS_USER_BASE_URL + "/auth/reset-password/**",
             SystemConfig.STS_USER_BASE_URL + "/verification-code/**",
             SystemConfig.STS_USER_BASE_URL + "/auth/update-public-key/**",
+            SystemConfig.STS_USER_BASE_URL + "/routes/list",
+            SystemConfig.STS_USER_BASE_URL + "/terminals/list",
     };
 
     @Bean
