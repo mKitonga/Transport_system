@@ -1,0 +1,80 @@
+package com.transport.authentication.controller;
+
+import com.transport.user.entity.User;
+import com.transport.user.service.TransportUserAuthService;
+import com.transport.user.service.UserRegistrationService;
+import com.transport.user.service.UserAuthService;
+import com.transport.authentication.form.RegisterParentForm;
+import com.transport.authentication.form.RegisterSaccoAdminForm;
+import com.transport.authentication.form.RegisterSaccoDriverForm;
+import com.transport.authentication.form.RegisterSchoolAdminForm;
+import com.transport.authentication.form.RegisterSchoolDriverForm;
+import com.transport.authentication.view.AuthView;
+import com.transport.liby.service.SystemConfig;
+import com.transport.liby.service.Message;
+import com.transport.liby.view.EntityApiResponse;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Locale;
+
+@RestController
+@RequestMapping(SystemConfig.STS_USER_BASE_URL + "/auth")
+public class TransportAuthenticationController extends AuthenticationController<User> {
+    private final TransportUserAuthService authService;
+    private final UserRegistrationService userRegistrationService;
+
+    public TransportAuthenticationController(
+            TransportUserAuthService authService,
+            UserRegistrationService userRegistrationService) {
+        this.authService = authService;
+        this.userRegistrationService = userRegistrationService;
+    }
+
+    @Override
+    protected UserAuthService<User, ?> getAuthService() {
+        return authService;
+    }
+
+    @PostMapping("register/parent")
+    public EntityApiResponse<AuthView> registerParent(
+            @RequestBody @Valid RegisterParentForm form,
+            Locale locale) {
+        return registrationResponse(userRegistrationService.registerParent(form), locale);
+    }
+
+    @PostMapping("register/school-admin")
+    public EntityApiResponse<AuthView> registerSchoolAdmin(
+            @RequestBody @Valid RegisterSchoolAdminForm form,
+            Locale locale) {
+        return registrationResponse(userRegistrationService.registerSchoolAdmin(form), locale);
+    }
+
+    @PostMapping("register/school-driver")
+    public EntityApiResponse<AuthView> registerSchoolDriver(
+            @RequestBody @Valid RegisterSchoolDriverForm form,
+            Locale locale) {
+        return registrationResponse(userRegistrationService.registerSchoolDriver(form), locale);
+    }
+
+    @PostMapping("register/sacco-admin")
+    public EntityApiResponse<AuthView> registerSaccoAdmin(
+            @RequestBody @Valid RegisterSaccoAdminForm form,
+            Locale locale) {
+        return registrationResponse(userRegistrationService.registerSaccoAdmin(form), locale);
+    }
+
+    @PostMapping("register/sacco-driver")
+    public EntityApiResponse<AuthView> registerSaccoDriver(
+            @RequestBody @Valid RegisterSaccoDriverForm form,
+            Locale locale) {
+        return registrationResponse(userRegistrationService.registerSaccoDriver(form), locale);
+    }
+
+    private EntityApiResponse<AuthView> registrationResponse(AuthView authView, Locale locale) {
+        return new EntityApiResponse<>(Message.get("registration.success", locale), authView);
+    }
+}

@@ -1,8 +1,8 @@
 package com.transport.complaints.entity;
 
-import com.transport.Routes.Entity.Route;
-import com.transport.Sacco.Entity.Sacco;
-import com.transport.School.Entity.School;
+import com.transport.routes.Entity.Route;
+import com.transport.sacco.Entity.Sacco;
+import com.transport.school.Entity.School;
 import com.transport.liby.entity.BaseJpaEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

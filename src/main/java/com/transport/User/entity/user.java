@@ -1,4 +1,4 @@
-package com.transport.User.entity;
+package com.transport.user.entity;
 
 import com.transport.liby.entity.BaseJpaEntity;
 import jakarta.persistence.*;
