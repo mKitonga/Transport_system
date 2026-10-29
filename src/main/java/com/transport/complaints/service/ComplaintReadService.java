@@ -1,7 +1,7 @@
 package com.transport.complaints.service;
 
-import com.transport.Sacco.SaccoAdmin.Service.SaccoAdminReadService;
-import com.transport.School.SchoolAdmin.Service.SchoolAdminReadService;
+import com.transport.sacco.SaccoAdmin.Service.SaccoAdminReadService;
+import com.transport.school.SchoolAdmin.Service.SchoolAdminReadService;
 import com.transport.complaints.entity.ComplaintService;
 import com.transport.complaints.entity.Complaints;
 import com.transport.complaints.form.ResolveComplaintForm;

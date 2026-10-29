@@ -1,10 +1,10 @@
 package com.transport.complaints.service;
 
-import com.transport.Routes.Service.RouteReadService;
-import com.transport.Sacco.SaccoAdmin.Service.SaccoAdminReadService;
-import com.transport.Sacco.Service.SaccoReadService;
-import com.transport.School.SchoolAdmin.Service.SchoolAdminReadService;
-import com.transport.School.Service.SchoolReadService;
+import com.transport.routes.Service.RouteReadService;
+import com.transport.sacco.SaccoAdmin.Service.SaccoAdminReadService;
+import com.transport.sacco.Service.SaccoReadService;
+import com.transport.school.SchoolAdmin.Service.SchoolAdminReadService;
+import com.transport.school.Service.SchoolReadService;
 import com.transport.complaints.entity.ComplaintService;
 import com.transport.complaints.entity.ComplaintStatus;
 import com.transport.complaints.entity.Complaints;
