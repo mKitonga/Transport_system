@@ -3,6 +3,7 @@ package com.transport.sacco.SaccoDriver.Repository;
 import com.transport.sacco.SaccoDriver.Entity.SaccoDriver;
 import com.transport.user.repository.UserRepository;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,9 @@ public interface SaccoDriverRepository extends UserRepository<SaccoDriver> {
               and d.deletedByEntityId is null
             """)
     Optional<SaccoDriver> findActiveByEntityIdForUpdate(@Param("driverId") String driverId);
+
+    default Specification<SaccoDriver> saccoEntityIdIs(String saccoEntityId) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.join("sacco").get("entityId"), saccoEntityId);
+    }
 }

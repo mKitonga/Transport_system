@@ -5,6 +5,8 @@ import com.transport.routes.Service.RouteReadService;
 import com.transport.sacco.Entity.Sacco;
 import com.transport.sacco.SaccoAdmin.Entity.SaccoAdmin;
 import com.transport.sacco.SaccoAdmin.Service.SaccoAdminReadService;
+import com.transport.sacco.SaccoDriver.Entity.SaccoDriver;
+import com.transport.sacco.SaccoDriver.Service.SaccoDriverReadService;
 import com.transport.sacco.Service.SaccoReadService;
 import com.transport.school.Entity.School;
 import com.transport.school.SchoolAdmin.Entity.SchoolAdmin;
@@ -13,6 +15,7 @@ import com.transport.trips.entity.ClosingDayTrip;
 import com.transport.trips.entity.DailyPickupTrip;
 import com.transport.trips.entity.EducationalTrip;
 import com.transport.trips.entity.Trip;
+import com.transport.trips.entity.TripStatus;
 import com.transport.trips.entity.TripType;
 import com.transport.trips.form.EditTripForm;
 import com.transport.trips.form.RegisterClosingDayTripForm;
@@ -34,6 +37,19 @@ public class TripEditService extends BaseJpaRepoEditService<Trip, TripRepository
     private RouteReadService routeReadService;
     private SaccoAdminReadService saccoAdminReadService;
     private SaccoReadService saccoReadService;
+    private SaccoDriverReadService saccoDriverReadService;
+
+    @Transactional
+    public Trip assignDriverToTrip(String tripId, String driverId, String saccoId, String updatedById) {
+        Trip trip = findByEntityId(tripId);
+        SaccoDriver driver = saccoDriverReadService.findByEntityId(driverId);
+        if (driver.getSacco() == null || !driver.getSacco().getEntityId().equals(saccoId)) {
+            throw notFound();
+        }
+        trip.setAssignedDriver(driver);
+        trip.setStatus(TripStatus.ASSIGNED);
+        return save(trip, updatedById);
+    }
 
     @Transactional
     public DailyPickupTrip registerDailyPickupTrip(RegisterDailyPickupTripForm form) {
@@ -275,5 +291,10 @@ public class TripEditService extends BaseJpaRepoEditService<Trip, TripRepository
     @Autowired
     public void setSaccoReadService(SaccoReadService service) {
         saccoReadService = service;
+    }
+
+    @Autowired
+    public void setSaccoDriverReadService(SaccoDriverReadService service) {
+        saccoDriverReadService = service;
     }
 }

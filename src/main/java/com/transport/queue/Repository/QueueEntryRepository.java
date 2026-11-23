@@ -4,6 +4,7 @@ import com.transport.queue.Entity.QueueEntry;
 import com.transport.queue.Entity.QueueEntryStatus;
 import com.transport.liby.repository.BaseJpaRepository;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,16 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface QueueEntryRepository extends BaseJpaRepository<QueueEntry> {
+
+    default Specification<QueueEntry> saccoAdminEntityIdIs(String saccoAdminId) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.join("saccoAdmin").get("entityId"), saccoAdminId);
+    }
+
+    default Specification<QueueEntry> statusIs(QueueEntryStatus status) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("status"), status);
+    }
 
     @Query("""
             select q from QueueEntry q
