@@ -32,4 +32,9 @@ public interface FareRepository extends BaseJpaRepository<Fare> {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("timePeriod"), timePeriod);
     }
+
+    default Specification<Fare> saccoEntityIdIs(String saccoEntityId) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.join("route").join("sacco").get("entityId"), saccoEntityId);
+    }
 }

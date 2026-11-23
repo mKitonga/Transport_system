@@ -1,5 +1,6 @@
 package com.transport.trips.entity;
 
+import com.transport.sacco.SaccoDriver.Entity.SaccoDriver;
 import com.transport.school.Entity.SchoolGrade;
 import com.transport.school.SchoolAdmin.Entity.SchoolAdmin;
 import com.transport.liby.entity.BaseJpaEntity;
@@ -45,4 +46,8 @@ public abstract class Trip extends BaseJpaEntity {
 
     @Column(name = "amount", precision = 10, scale = 2)
     private BigDecimal amount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_driver_id")
+    private SaccoDriver assignedDriver;
 }

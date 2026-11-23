@@ -4,18 +4,12 @@ import com.transport.liby.form.BaseFetchForm;
 import com.transport.user.entity.UserStatus;
 import java.time.LocalDateTime;
 
-/**
- * Form used for searching and paginating STS users.
- */
 public class StsUserFetchForm extends BaseFetchForm {
 
     private UserStatus userStatus;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    // ---------------------------------------------------------------------
-    // Getters & setters
-    // ---------------------------------------------------------------------
     public UserStatus getUserStatus() {
         return userStatus;
     }
